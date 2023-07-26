@@ -1,3 +1,4 @@
+import React from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
@@ -10,18 +11,24 @@ import {
 } from './useImageGallery';
 
 export const App = () => {
-  useImageGalleryContext();
-
   return (
     <ImageGalleryProvider>
-      <div className={css.container}>
-        <Searchbar />
-        <ImageGallery />
-        <Loader />
-        <Button />
-        <Modal />
-      </div>
+      <AppContent />
     </ImageGalleryProvider>
+  );
+};
+
+const AppContent = () => {
+  const { images, isLoading, selectedImage } = useImageGalleryContext();
+
+  return (
+    <div className={css.container}>
+      <Searchbar />
+      <ImageGallery />
+      {isLoading && <Loader />}
+      {images.length > 0 && <Button />}
+      {selectedImage && <Modal />}
+    </div>
   );
 };
 
